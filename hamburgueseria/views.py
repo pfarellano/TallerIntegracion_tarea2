@@ -7,6 +7,11 @@ from .models import Ingrediente, Hamburguesa
 from django.views.decorators.csrf import csrf_exempt
 
 
+def home(request):
+    return render(request, 'home.html')
+
+
+
 
 @csrf_exempt
 def lista_ingredientes(request):
