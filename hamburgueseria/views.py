@@ -28,7 +28,6 @@ def lista_ingredientes(request):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         else:
-            print(data)
             respuesta="Atributos inválidos, para crear un ingrediente válido especificar su nombre y descripción"
             return JsonResponse({"message":respuesta}, status=400)
 
