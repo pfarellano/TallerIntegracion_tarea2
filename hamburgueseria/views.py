@@ -88,11 +88,11 @@ def detalle_ingrediente(request, id):
 
     elif request.method == 'DELETE':
         for hamburguesa in Hamburguesa.objects.all():
-            ingredientes=hamburguesa.ingredientes_hamburguesa.all()
+            ingredientes=hamburguesa.ingredientes.all()
             if ingrediente in ingredientes:
-                return JsonResponse({"message": "no se puede borrar ingrediente por que está en una hamburguesa"}, status=404)
+                return JsonResponse({"message": "no se puede borrar ingrediente por que está en una hamburguesa"}, status=409)
         ingrediente.delete()
-        return JsonResponse({"message": "ingrediente borrado"}, status=204)
+        return JsonResponse({"message": "ingrediente borrado"}, status=200)
 
 
 
@@ -123,7 +123,7 @@ def detalle_hamburguesa(request, id):
 
     elif request.method == 'DELETE':
         hamburguesa.delete()
-        return JsonResponse({"message": "hamburguesa borrada"}, status=204)
+        return JsonResponse({"message": "hamburguesa borrada"}, status=200)
 
 
 
@@ -146,16 +146,16 @@ def preparacion(request, id, idi):
         return JsonResponse({"message": "no existe ingrediente con ese id"}, status=404)
 
     if request.method == 'PUT':
-        hamburguesa.ingredientes_hamburguesa.add(ingrediente)
+        hamburguesa.ingredientes.add(ingrediente)
         serializer = HamburguesaSerializer(hamburguesa)
-        return JsonResponse(serializer.data)
+        return JsonResponse(serializer.data, status=201)
 
     elif request.method == 'DELETE':
-        ingredientes_hamburguesa = hamburguesa.ingredientes_hamburguesa.all()
+        ingredientes_hamburguesa = hamburguesa.ingredientes.all()
         if ingrediente in ingredientes_hamburguesa:
-            hamburguesa.ingredientes_hamburguesa.remove(ingrediente)
+            hamburguesa.ingredientes.remove(ingrediente)
             serializer = HamburguesaSerializer(hamburguesa)
-            return JsonResponse(serializer.data)
+            return JsonResponse(serializer.data, status=200)
         else:
             return JsonResponse({"message": "el ingrediente no era parte de la hamburguesa"}, status=400)
 

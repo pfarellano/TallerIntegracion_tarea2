@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import Ingrediente, Hamburguesa
 
+
+
 class IngredienteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingrediente
@@ -16,10 +18,10 @@ class IngredienteSerializer(serializers.ModelSerializer):
 
 
 class HamburguesaSerializer(serializers.ModelSerializer):
-    ingredientes_hamburguesa = IngredienteSerializer(read_only=True, many=True)
+    ingredientes = IngredienteSerializer(read_only=True, many=True)
     class Meta:
         model = Hamburguesa
-        fields = ('id', 'nombre', 'precio', 'descripcion', 'imagen', 'ingredientes_hamburguesa')
+        fields = ('id', 'nombre', 'precio', 'descripcion', 'imagen', 'ingredientes' )
 
         def create(self, validated_data):
             return Hamburguesa.objects.create(**validated_data)
