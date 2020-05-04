@@ -138,7 +138,7 @@ def preparacion(request, id, idi):
     try:
         hamburguesa = Hamburguesa.objects.get(id=id)
     except Hamburguesa.DoesNotExist:
-        return JsonResponse({"message": "no existe hamburguesa con ese id"}, status=404)
+        return JsonResponse({"message": "no existe hamburguesa con ese id"}, status=400)
 
     try:
         ingrediente = Ingrediente.objects.get(id=idi)
@@ -157,7 +157,7 @@ def preparacion(request, id, idi):
             serializer = HamburguesaSerializer(hamburguesa)
             return JsonResponse(serializer.data, status=200)
         else:
-            return JsonResponse({"message": "el ingrediente no era parte de la hamburguesa"}, status=400)
+            return JsonResponse({"message": "el ingrediente no era parte de la hamburguesa"}, status=404)
 
 
 
